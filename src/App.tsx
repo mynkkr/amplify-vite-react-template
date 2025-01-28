@@ -176,7 +176,7 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <div className="logo-container">
-                <img src="src/assets/logo.png" alt="App Logo" className="logo" />
+                <img src="public/logo.png" alt="App Logo" className="logo" />
             </div>
             <h1>Artifact Generation Platform</h1>
             <form onSubmit={handleSubmit}>
