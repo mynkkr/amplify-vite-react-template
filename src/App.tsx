@@ -180,7 +180,7 @@ const App: React.FC = () => {
                 <img src={logo} alt="App Logo" className="logo" />
 {/*                 <img src="public/logo.png" alt="App Logo" className="logo" /> */}
             </div>
-            <h1>Artifact Generation Platform</h1>
+            <h1>RenAIssance: Artifact Generation Platform</h1>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="url">Enter Content URL for Artifact generation* </label>
