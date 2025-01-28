@@ -1,42 +1,315 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/*!* General reset *!*/
+/** {*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*  box-sizing: border-box;*/
+/*}*/
+
+/*body {*/
+/*  font-family: 'Arial', sans-serif;*/
+/*  background-color: #e8e8e8; !* Light gray background for the page *!*/
+/*  display: flex;*/
+/*  justify-content: center;*/
+/*  align-items: center;*/
+/*  min-height: 100vh;*/
+/*  padding: 20px;*/
+/*  background-image: url('https://www.transparenttextures.com/patterns/asfalt.png'); !* Optional background pattern *!*/
+/*  background-size: cover;*/
+/*  background-position: center;*/
+/*}*/
+
+/*.App {*/
+/*  background-color: #ffffff;*/
+/*  border-radius: 8px;*/
+/*  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);*/
+/*  width: 100%;*/
+/*  max-width: 400px;*/
+/*  padding: 30px;*/
+/*  text-align: left; !* Left-align text inside the box *!*/
+/*}*/
+
+/*h1 {*/
+/*  font-size: 1.6rem;*/
+/*  color: #333;*/
+/*  margin-bottom: 20px;*/
+/*  text-align: center; !* Center align the title at the top *!*/
+/*  transition: color 0.3s ease, transform 0.3s ease;*/
+/*}*/
+
+/*h1:hover {*/
+/*  color: #007bff; !* Change color to blue on hover *!*/
+/*  transform: scale(1.05); !* Slightly scale up the title *!*/
+/*  cursor: pointer; !* Add a pointer cursor to indicate interactivity *!*/
+/*}*/
+
+/*form {*/
+/*  display: flex;*/
+/*  flex-direction: column;*/
+/*  gap: 15px;*/
+/*}*/
+
+/*label {*/
+/*  font-size: 1rem;*/
+/*  color: #555;*/
+/*  margin-bottom: 8px;*/
+/*}*/
+
+/*input[type="text"], input[type="file"] {*/
+/*  padding: 10px;*/
+/*  font-size: 1rem;*/
+/*  border: 1px solid #ccc;*/
+/*  border-radius: 5px;*/
+/*  background-color: #fafafa;*/
+/*  transition: border-color 0.3s ease;*/
+/*}*/
+
+/*input[type="text"]:focus, input[type="file"]:focus {*/
+/*  border-color: #007bff;*/
+/*  outline: none;*/
+/*}*/
+
+/*button {*/
+/*  padding: 12px 20px;*/
+/*  font-size: 1rem;*/
+/*  color: white;*/
+/*  background-color: #007bff;*/
+/*  border: none;*/
+/*  border-radius: 5px;*/
+/*  cursor: pointer;*/
+/*  transition: background-color 0.3s ease;*/
+/*}*/
+
+/*button:hover {*/
+/*  background-color: #0056b3;*/
+/*}*/
+
+/*button:disabled {*/
+/*  background-color: #d6d6d6;*/
+/*  cursor: not-allowed;*/
+/*}*/
+
+/*p {*/
+/*  font-size: 1rem;*/
+/*  margin-top: 15px;*/
+/*  color: #555;*/
+/*}*/
+
+/*p.error {*/
+/*  color: red;*/
+/*}*/
+
+/*p.success {*/
+/*  color: green;*/
+/*}*/
+
+/* App.css */
+
+/* Overall body styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #333;
+}
+
+/* Container for the form */
+.App {
+  background-color: #fff;
   padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+/* Logo styling */
+.logo-container {
   text-align: center;
+  /*margin-bottom: 2rem;*/
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  width: 200px;
+  height: auto;
+  object-fit: contain;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Heading styling */
+h1 {
+  text-align: center;
+  font-size: 24px;
+  color: #2c3e50;
+  margin-bottom: 1.5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Label styling */
+label {
+  font-size: 16px;
+  color: #2c3e50;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
 }
 
-.card {
-  padding: 2em;
+/* Input styling */
+input[type="text"],
+input[type="file"] {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+  color: #333;
 }
 
-.read-the-docs {
-  color: #888;
+/* File input styling for better UI */
+input[type="file"] {
+  padding: 0.6rem;
 }
+
+/* Text area styling for instructions */
+text {
+  font-size: 14px;
+  color: #7f8c8d;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Note in italics styling */
+.App text {
+  font-style: italic;
+  font-size: 12px;
+  color: #8e8e8e;
+  margin-top: 0.5rem;
+  display: block;
+}
+
+/* Button styling */
+button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Message display styling */
+p {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 16px;
+  color: #e74c3c;
+}
+
+/* Align the checkboxes horizontally */
+.checkbox-container {
+  display: flex;
+  gap: 20px; /* Adjust the space between checkboxes as needed */
+  flex-wrap: wrap; /* This allows the checkboxes to wrap to the next line if the container is too small */
+  padding-bottom: 15px;
+}
+
+.checkbox-container div {
+  display: flex;
+  align-items: center; /* Centers the checkbox and label vertically */
+}
+
+.checkbox-container label {
+  margin-left: 8px; /* Space between the checkbox and label */
+}
+
+/* Faded label style for disabled checkboxes */
+.faded {
+  opacity: 0.5; /* Makes the text appear faded */
+  cursor: not-allowed; /* Changes the cursor to indicate that it's disabled */
+}
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.popup button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.popup button:hover {
+  background-color: #0056b3;
+}
+
+
+/* Responsive design */
+/*@media (max-width: 768px) {*/
+/*  .App {*/
+/*    padding: 1.5rem;*/
+/*    width: 90%;*/
+/*  }*/
+
+/*  h1 {*/
+/*    font-size: 20px;*/
+/*  }*/
+
+/*  button {*/
+/*    font-size: 14px;*/
+/*  }*/
+/*}*/
+
+
+/* Responsive design */
+/*@media (max-width: 768px) {*/
+/*  .App {*/
+/*    padding: 1.5rem;*/
+/*    width: 90%;*/
+/*  }*/
+
+/*  h1 {*/
+/*    font-size: 20px;*/
+/*  }*/
+
+/*  button {*/
+/*    font-size: 14px;*/
+/*  }*/
+/*}*/
+
