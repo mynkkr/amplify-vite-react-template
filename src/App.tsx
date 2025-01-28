@@ -3,7 +3,7 @@ import "./App.css";
 // import { uploadData } from "aws-amplify/storage";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-import pako from "pako";  // Import pako for compression
+// import pako from "pako";  // Import pako for compression
 
 const client = generateClient<Schema>();
 
@@ -24,16 +24,16 @@ const App: React.FC = () => {
     const [showPopup, setShowPopup] = useState(false); // Popup visibility state
 
     // Compress the byte array before uploading
-    const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
-        try {
-            const compressed = pako.deflate(byteArray);
-            console.log("Compressed byte array:", compressed);
-            return compressed;
-        } catch (error) {
-            console.error("Error during compression:", error);
-            throw new Error("Compression failed.");
-        }
-    };
+    // const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
+    //     try {
+    //         const compressed = pako.deflate(byteArray);
+    //         console.log("Compressed byte array:", compressed);
+    //         return compressed;
+    //     } catch (error) {
+    //         console.error("Error during compression:", error);
+    //         throw new Error("Compression failed.");
+    //     }
+    // };
 
     const convertToByteArray = (file: File | null): Promise<Uint8Array | null> => {
         return new Promise((resolve, reject) => {
@@ -143,11 +143,11 @@ const App: React.FC = () => {
             const logoBuffer = logoImage ? await convertToByteArray(logoImage) : null;
 
             // Compress the byte arrays before sending to DynamoDB
-            const compressedMainCharacterBuffer = mainCharacterBuffer ? compressByteArray(mainCharacterBuffer) : null;
-            const compressedLogoBuffer = logoBuffer ? compressByteArray(logoBuffer) : null;
+            // const compressedMainCharacterBuffer = mainCharacterBuffer ? compressByteArray(mainCharacterBuffer) : null;
+            // const compressedLogoBuffer = logoBuffer ? compressByteArray(logoBuffer) : null;
 
             // Save to DynamoDB
-            await addToDDB(compressedMainCharacterBuffer, compressedLogoBuffer);
+            await addToDDB(mainCharacterBuffer, logoBuffer);
             setMessage(`Job submitted successfully, mail is sent to xxx@amazon.com.`);
         } catch (error) {
             console.error("Error uploading images:", error);
