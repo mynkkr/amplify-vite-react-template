@@ -4,6 +4,7 @@ import "./App.css";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 // import pako from "pako";  // Import pako for compression
+import logo from './assets/logo.png';
 
 const client = generateClient<Schema>();
 
@@ -176,7 +177,8 @@ const App: React.FC = () => {
     return (
         <div className="App">
             <div className="logo-container">
-                <img src="public/logo.png" alt="App Logo" className="logo" />
+                <img src={logo} alt="App Logo" className="logo" />
+{/*                 <img src="public/logo.png" alt="App Logo" className="logo" /> */}
             </div>
             <h1>Artifact Generation Platform</h1>
             <form onSubmit={handleSubmit}>
