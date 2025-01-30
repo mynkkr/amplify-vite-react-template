@@ -23,6 +23,7 @@ const App: React.FC = () => {
         "5:1": false,
     });
     const [showPopup, setShowPopup] = useState(false); // Popup visibility state
+    const [blurValue, setBlurValue] = useState(75); // New state for blur range (default is 75)
 
     // Compress the byte array before uploading
     // const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
@@ -71,6 +72,7 @@ const App: React.FC = () => {
                 mainCharacterImageData: mainCharacterBuffer ? "[Compressed Binary Data]" : null,
                 logoImageData: logoBuffer ? "[Compressed Binary Data]" : null,
                 aspectRatios,
+                blurValue,
             });
 
             const response = await client.models.Todo.create({
@@ -80,6 +82,7 @@ const App: React.FC = () => {
                     mainCharacterImageData: mainCharacterBuffer ? mainCharacterBuffer : null,  // Ensure null values are handled
                     logoImageData: logoBuffer ? logoBuffer : null,  // Ensure null values are handled
                     aspectRatios: JSON.stringify(aspectRatios),  // Save selected aspect ratios
+                    blurValue: blurValue, // Save blur value
                 }),
             });
 
@@ -122,7 +125,9 @@ const App: React.FC = () => {
             [name]: checked,
         }));
     };
-
+const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setBlurValue(Number(e.target.value));
+    };
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -172,6 +177,7 @@ const App: React.FC = () => {
             "3:4": false,
             "5:1": false,
         });
+        setBlurValue(75); // Reset blur value to 75
     };
 
     return (
@@ -277,6 +283,20 @@ const App: React.FC = () => {
                     <text>
                         Sample Instruction 2: Please shortlist top 5 images which are most vibrant and colorful
                     </text>
+                </div>
+
+                <div>
+                    <label htmlFor="blur">Blur Amount (0 to 150):</label>
+                    <input
+                        type="range"
+                        id="blur"
+                        min="0"
+                        max="150"
+                        value={blurValue}
+                        onChange={handleBlurChange}
+                    />
+                    <div className="blur-value">{blurValue}</div>
+                    {/* Display the current blur value */}
                 </div>
 
                 <button type="submit" disabled={loading}>
