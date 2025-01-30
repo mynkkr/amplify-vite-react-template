@@ -285,8 +285,8 @@ const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                     </text>
                 </div>
 
-                <div>
-                    <label htmlFor="blur">Blur Amount (0 to 150):</label>
+                <div className="blur-slider-container">
+                    <label htmlFor="blur">Blur Amount (0 to 150)</label>
                     <input
                         type="range"
                         id="blur"
@@ -296,8 +296,8 @@ const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
                         onChange={handleBlurChange}
                     />
                     <div className="blur-value">{blurValue}</div>
-                    {/* Display the current blur value */}
                 </div>
+
 
                 <button type="submit" disabled={loading}>
                     {loading ? "Uploading..." : "Submit"}
