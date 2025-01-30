@@ -183,15 +183,24 @@ div > label[for="blur"] {
   margin-bottom: 0.5rem;
 }
 
-/* Blur Slider Styling */
+/* Container for the slider and value */
+.blur-slider-container {
+  display: flex;
+  align-items: center; /* Align items vertically centered */
+  justify-content: space-between; /* Space between elements */
+  gap: 10px; /* Adjust the gap between the elements */
+  margin-bottom: 1.5rem; /* Add space below the entire block */
+}
+
+/* Styling for the range slider */
 input[type="range"] {
-  width: 100%;
+  width: 30%; /* Adjust the width as needed */
   height: 8px;
   background-color: #ddd;
   border-radius: 4px;
   -webkit-appearance: none; /* Remove default styles */
   appearance: none;
-  margin-bottom: 0.5rem;
+  margin: 0;
   outline: none;
   transition: background-color 0.3s ease;
 }
@@ -237,10 +246,8 @@ input[type="range"]::-moz-range-track {
 
 /* Display the current value of the blur slider */
 .blur-value {
-  text-align: center;
   font-size: 14px;
   color: #7f8c8d;
-  margin-bottom: 0.5rem;
+  width: 50px; /* Fix width to ensure it doesn't overflow */
+  text-align: center; /* Align the text in the center */
 }
-
-
