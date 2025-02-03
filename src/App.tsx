@@ -3,9 +3,11 @@ import "./App.css";
 // import { uploadData } from "aws-amplify/storage";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-// import pako from "pako";  // Import pako for compression
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import pako from "pako";  // Import pako for compression
+import Navbar from "./Navbar";
+import Jobsearch from "./Jobsearch.tsx";
 import logo from './assets/logo.png';
-
 const client = generateClient<Schema>();
 
 const App: React.FC = () => {
@@ -26,16 +28,16 @@ const App: React.FC = () => {
     const [blurValue, setBlurValue] = useState(75); // New state for blur range (default is 75)
 
     // Compress the byte array before uploading
-    // const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
-    //     try {
-    //         const compressed = pako.deflate(byteArray);
-    //         console.log("Compressed byte array:", compressed);
-    //         return compressed;
-    //     } catch (error) {
-    //         console.error("Error during compression:", error);
-    //         throw new Error("Compression failed.");
-    //     }
-    // };
+    const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
+        try {
+            const compressed = pako.deflate(byteArray);
+            console.log("Compressed byte array:", compressed);
+            return compressed;
+        } catch (error) {
+            console.error("Error during compression:", error);
+            throw new Error("Compression failed.");
+        }
+    };
 
     const convertToByteArray = (file: File | null): Promise<Uint8Array | null> => {
         return new Promise((resolve, reject) => {
@@ -125,9 +127,12 @@ const App: React.FC = () => {
             [name]: checked,
         }));
     };
-const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    // Handle blur range slider change
+    const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setBlurValue(Number(e.target.value));
     };
+
     // Handle form submission
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -149,11 +154,11 @@ const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             const logoBuffer = logoImage ? await convertToByteArray(logoImage) : null;
 
             // Compress the byte arrays before sending to DynamoDB
-            // const compressedMainCharacterBuffer = mainCharacterBuffer ? compressByteArray(mainCharacterBuffer) : null;
-            // const compressedLogoBuffer = logoBuffer ? compressByteArray(logoBuffer) : null;
+            const compressedMainCharacterBuffer = mainCharacterBuffer ? compressByteArray(mainCharacterBuffer) : null;
+            const compressedLogoBuffer = logoBuffer ? compressByteArray(logoBuffer) : null;
 
             // Save to DynamoDB
-            await addToDDB(mainCharacterBuffer, logoBuffer);
+            await addToDDB(compressedMainCharacterBuffer, compressedLogoBuffer);
             setMessage(`Job submitted successfully, mail is sent to xxx@amazon.com.`);
         } catch (error) {
             console.error("Error uploading images:", error);
@@ -181,142 +186,191 @@ const handleBlurChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     };
 
     return (
-        <div className="App">
-            <div className="logo-container">
-                <img src={logo} alt="App Logo" className="logo" />
-{/*                 <img src="public/logo.png" alt="App Logo" className="logo" /> */}
+        <Router>
+            <div className="App">
+                {/* Navbar Component */}
+                <Navbar/>
+
+                <Routes>
+                    <Route
+                        path="/"
+                        element={
+                            <div >
+                                <div className="logo-container">
+                                    <img src="src/assets/logo.png" alt="App Logo" className="logo"/>
+                                </div>
+                                <h1>RenAIssance: Artifact Generation Platform</h1>
+                                <form onSubmit={handleSubmit}>
+                                    <div>
+                                        <label htmlFor="url">Enter Content URL for Artifact generation* </label>
+                                        <input
+                                            type="text"
+                                            id="url"
+                                            value={url}
+                                            onChange={handleUrlChange}
+                                            placeholder="Enter a URL"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="mainCharacterImage">Protagonist Character Image
+                                            (Optional) </label>
+                                        <text>Note: If this is provided, Screengrabs will contain the Protagonist
+                                            Image
+                                        </text>
+                                        <input
+                                            type="file"
+                                            id="mainCharacterImage"
+                                            onChange={handleMainCharacterImageChange}
+                                            accept="image/*"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="logoImage">Upload Logo Image (Optional) </label>
+                                        <input
+                                            type="file"
+                                            id="logoImage"
+                                            onChange={handleLogoImageChange}
+                                            accept="image/*"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label>Choose Aspect Ratio (Optional)</label>
+                                        <div className="checkbox-container">
+                                            <div>
+                                                <input
+                                                    type="checkbox"
+                                                    id="9:16"
+                                                    name="9:16"
+                                                    checked={aspectRatios["9:16"]}
+                                                    onChange={handleAspectRatioChange}
+                                                />
+                                                <label htmlFor="9:16">9:16</label>
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="checkbox"
+                                                    id="16:9"
+                                                    name="16:9"
+                                                    checked={aspectRatios["16:9"]}
+                                                    onChange={handleAspectRatioChange}
+                                                />
+                                                <label htmlFor="16:9">16:9</label>
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="checkbox"
+                                                    id="3:4"
+                                                    name="3:4"
+                                                    checked={aspectRatios["3:4"]}
+                                                    onChange={handleAspectRatioChange}
+                                                    disabled
+                                                />
+                                                <label htmlFor="3:4" className="faded">3:4</label>
+                                            </div>
+                                            <div>
+                                                <input
+                                                    type="checkbox"
+                                                    id="5:1"
+                                                    name="5:1"
+                                                    checked={aspectRatios["5:1"]}
+                                                    onChange={handleAspectRatioChange}
+                                                    disabled
+                                                />
+                                                <label htmlFor="5:1" className="faded">5:1</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="instruction">Instruction for shortlisting of images to the AI
+                                            agent </label>
+                                        <input
+                                            type="text"
+                                            id="instruction"
+                                            value={instruction}
+                                            onChange={handleInstructionChange}
+                                            placeholder="Enter an instruction (Optional)"
+                                        />
+
+                                        <text>
+                                            Sample Instruction 1: Please shortlist top 10 images which matches Romantic
+                                            Comedy Genre
+                                        </text>
+                                        <text>
+                                            Sample Instruction 2: Please shortlist top 5 images which are most vibrant
+                                            and colorful
+                                        </text>
+                                    </div>
+
+                                    <div className="blur-slider-container">
+                                        <label htmlFor="blur">Blur Amount (0 to 150)</label>
+                                        <input
+                                            type="range"
+                                            id="blur"
+                                            min="0"
+                                            max="150"
+                                            value={blurValue}
+                                            onChange={handleBlurChange}
+                                        />
+                                        <div className="blur-value">{blurValue}</div>
+                                    </div>
+
+
+                                    <button type="submit" disabled={loading}>
+                                        {loading ? "Uploading..." : "Submit"}
+                                    </button>
+                                </form>
+
+                                {message && <p>{message}</p>}
+
+                                {/* Success Popup */}
+                                {showPopup && (
+                                    <div className="popup">
+                                        <div className="popup-content">
+                                            <h2>Success!</h2>
+                                            <p>Your job has been successfully submitted!</p>
+                                            <button onClick={handleClosePopup}>OK</button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path="/status"
+                        element={
+                            <div>
+                                <div className="logo-container">
+                                    <img src="src/assets/logo.png" alt="App Logo" className="logo"/>
+                                </div>
+                                <h1>RenAIssance: Artifact Generation Platform</h1>
+                                <h1>Job Status</h1>
+
+                                <Jobsearch/>
+                            </div>
+                        }
+                    />
+
+                    <Route
+                        path="/gallery"
+                        element={
+                            <div>
+                                <div className="logo-container">
+                                    <img src="src/assets/logo.png" alt="App Logo" className="logo"/>
+                                </div>
+                                <h1>RenAIssance: Artifact Generation Platform</h1>
+                                <h1>Album</h1>
+                                <p>This is Page 3 content.</p>
+                            </div>
+                        }
+                    />
+                </Routes>
             </div>
-            <h1>RenAIssance: Artifact Generation Platform</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="url">Enter Content URL for Artifact generation* </label>
-                    <input
-                        type="text"
-                        id="url"
-                        value={url}
-                        onChange={handleUrlChange}
-                        placeholder="Enter a URL"
-                    />
-                </div>
+        </Router>
 
-                <div>
-                    <label htmlFor="mainCharacterImage">Protagonist Character Image (Optional) </label>
-                    <text>Note: If this is provided, Screengrabs will contain the Protagonist Image</text>
-                    <input
-                        type="file"
-                        id="mainCharacterImage"
-                        onChange={handleMainCharacterImageChange}
-                        accept="image/*"
-                    />
-                </div>
-
-                <div>
-                    <label htmlFor="logoImage">Upload Logo Image (Optional) </label>
-                    <input
-                        type="file"
-                        id="logoImage"
-                        onChange={handleLogoImageChange}
-                        accept="image/*"
-                    />
-                </div>
-                <div>
-                    <label>Choose Aspect Ratio (Optional)</label>
-                    <div className="checkbox-container">
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="9:16"
-                                name="9:16"
-                                checked={aspectRatios["9:16"]}
-                                onChange={handleAspectRatioChange}
-                            />
-                            <label htmlFor="9:16">9:16</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="16:9"
-                                name="16:9"
-                                checked={aspectRatios["16:9"]}
-                                onChange={handleAspectRatioChange}
-                            />
-                            <label htmlFor="16:9">16:9</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="3:4"
-                                name="3:4"
-                                checked={aspectRatios["3:4"]}
-                                onChange={handleAspectRatioChange}
-                                disabled
-                            />
-                            <label htmlFor="3:4" className="faded">3:4</label>
-                        </div>
-                        <div>
-                            <input
-                                type="checkbox"
-                                id="5:1"
-                                name="5:1"
-                                checked={aspectRatios["5:1"]}
-                                onChange={handleAspectRatioChange}
-                                disabled
-                            />
-                            <label htmlFor="5:1" className="faded">5:1</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label htmlFor="instruction">Instruction for shortlisting of images to the AI agent </label>
-                    <input
-                        type="text"
-                        id="instruction"
-                        value={instruction}
-                        onChange={handleInstructionChange}
-                        placeholder="Enter an instruction (Optional)"
-                    />
-
-                    <text>
-                        Sample Instruction 1: Please shortlist top 10 images which matches Romantic Comedy Genre
-                    </text>
-                    <text>
-                        Sample Instruction 2: Please shortlist top 5 images which are most vibrant and colorful
-                    </text>
-                </div>
-
-                <div className="blur-slider-container">
-                    <label htmlFor="blur">Blur Amount (0 to 150)</label>
-                    <input
-                        type="range"
-                        id="blur"
-                        min="0"
-                        max="150"
-                        value={blurValue}
-                        onChange={handleBlurChange}
-                    />
-                    <div className="blur-value">{blurValue}</div>
-                </div>
-
-
-                <button type="submit" disabled={loading}>
-                    {loading ? "Uploading..." : "Submit"}
-                </button>
-            </form>
-
-            {message && <p>{message}</p>}
-
-            {/* Success Popup */}
-            {showPopup && (
-                <div className="popup">
-                    <div className="popup-content">
-                        <h2>Success!</h2>
-                        <p>Your job has been successfully submitted!</p>
-                        <button onClick={handleClosePopup}>OK</button>
-                    </div>
-                </div>
-            )}
-        </div>
     );
 };
 
