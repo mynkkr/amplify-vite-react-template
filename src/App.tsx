@@ -4,7 +4,7 @@ import "./App.css";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import pako from "pako";  // Import pako for compression
+// import pako from "pako";  // Import pako for compression
 import Navbar from "./Navbar";
 import Jobsearch from "./Jobsearch.tsx";
 import logo from './assets/logo.png';
@@ -28,16 +28,16 @@ const App: React.FC = () => {
     const [blurValue, setBlurValue] = useState(75); // New state for blur range (default is 75)
 
     // Compress the byte array before uploading
-    const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
-        try {
-            const compressed = pako.deflate(byteArray);
-            console.log("Compressed byte array:", compressed);
-            return compressed;
-        } catch (error) {
-            console.error("Error during compression:", error);
-            throw new Error("Compression failed.");
-        }
-    };
+    // const compressByteArray = (byteArray: Uint8Array): Uint8Array => {
+    //     try {
+    //         const compressed = pako.deflate(byteArray);
+    //         console.log("Compressed byte array:", compressed);
+    //         return compressed;
+    //     } catch (error) {
+    //         console.error("Error during compression:", error);
+    //         throw new Error("Compression failed.");
+    //     }
+    // };
 
     const convertToByteArray = (file: File | null): Promise<Uint8Array | null> => {
         return new Promise((resolve, reject) => {
@@ -154,11 +154,11 @@ const App: React.FC = () => {
             const logoBuffer = logoImage ? await convertToByteArray(logoImage) : null;
 
             // Compress the byte arrays before sending to DynamoDB
-            const compressedMainCharacterBuffer = mainCharacterBuffer ? compressByteArray(mainCharacterBuffer) : null;
-            const compressedLogoBuffer = logoBuffer ? compressByteArray(logoBuffer) : null;
+            // const compressedMainCharacterBuffer = mainCharacterBuffer ? compressByteArray(mainCharacterBuffer) : null;
+            // const compressedLogoBuffer = logoBuffer ? compressByteArray(logoBuffer) : null;
 
             // Save to DynamoDB
-            await addToDDB(compressedMainCharacterBuffer, compressedLogoBuffer);
+            await addToDDB(mainCharacterBuffer, logoBuffer);
             setMessage(`Job submitted successfully, mail is sent to xxx@amazon.com.`);
         } catch (error) {
             console.error("Error uploading images:", error);
@@ -197,7 +197,7 @@ const App: React.FC = () => {
                         element={
                             <div >
                                 <div className="logo-container">
-                                    <img src="src/assets/logo.png" alt="App Logo" className="logo"/>
+                                    <img src={logo} alt="App Logo" className="logo" />
                                 </div>
                                 <h1>RenAIssance: Artifact Generation Platform</h1>
                                 <form onSubmit={handleSubmit}>
@@ -344,7 +344,7 @@ const App: React.FC = () => {
                         element={
                             <div>
                                 <div className="logo-container">
-                                    <img src="src/assets/logo.png" alt="App Logo" className="logo"/>
+                                   <img src={logo} alt="App Logo" className="logo" />
                                 </div>
                                 <h1>RenAIssance: Artifact Generation Platform</h1>
                                 <h1>Job Status</h1>
@@ -359,7 +359,7 @@ const App: React.FC = () => {
                         element={
                             <div>
                                 <div className="logo-container">
-                                    <img src="src/assets/logo.png" alt="App Logo" className="logo"/>
+                                    <img src={logo} alt="App Logo" className="logo" />
                                 </div>
                                 <h1>RenAIssance: Artifact Generation Platform</h1>
                                 <h1>Album</h1>
