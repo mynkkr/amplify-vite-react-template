@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "../amplify/data/resource";
-
+import './Jobsearch.css'
 const client = generateClient<Schema>();
 
 const Jobsearch: React.FC = () => {
@@ -76,11 +76,13 @@ const Jobsearch: React.FC = () => {
             {/* Display results or error */}
             {error && <p style={{ color: "red" }}>{error}</p>}
             {searchResult && (
-                <div className="search-result">
+                <div className="search-result" style={{ marginTop: "20px" }}>
                     <h3>Search Result</h3>
-                    <p><strong>ID:</strong> {searchResult.id}</p>
-                    <p><strong>URL:</strong> {searchResult.url}</p>
-                    <p><strong>Job Status:</strong> Running</p>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <div><strong>ID:</strong> {searchResult.id}</div>
+                        <div><strong>URL:</strong> {searchResult.url}</div>
+                        <div><strong>Job Status:</strong> Running</div>
+                    </div>
                 </div>
             )}
         </div>
