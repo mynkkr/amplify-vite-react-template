@@ -24,7 +24,6 @@ const Jobsearch: React.FC = () => {
         }
 
         try {
-            // Get the specific item using the provided syntax
             const { data: todo, errors } = await client.models.Todo.get({
                 id: searchId,
             });
@@ -33,14 +32,18 @@ const Jobsearch: React.FC = () => {
                 setError("An error occurred while searching.");
                 console.error(errors);
             } else if (todo) {
-                // Parse the content field, which contains the JSON object
-                const content = JSON.parse(todo.content);
+                // Ensure content is not null before parsing
+                const content = todo.content ? JSON.parse(todo.content) : null;
 
-                // Only extract the id and url from the content
-                setSearchResult({
-                    id: todo.id,
-                    url: content.url,
-                });
+                if (content) {
+                    // Only extract the id and url from the content
+                    setSearchResult({
+                        id: todo.id,
+                        url: content.url,
+                    });
+                } else {
+                    setError("Content is empty or invalid.");
+                }
             } else {
                 setError("No record found with this ID.");
             }
