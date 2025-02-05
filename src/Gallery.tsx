@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
 import { getUrl } from 'aws-amplify/storage';
-
+import './Gallery.css'
 const Gallery = () => {
     const [imageUrls, setImageUrls] = useState<URL[]>([]);
     const [loading, setLoading] = useState(true);
 
     const pictures = [
-        { path: 'profile-pictures/12/HappyFace.jpg' },
-        { path: 'profile-pictures/12/HappyFace.jpg' },
-        // Add more pictures as needed
+        { path: 'profile-pictures/12/landscapeImage6.jpeg' },
+        { path: 'profile-pictures/12/landscapeImage6 (1).jpeg' },
+        { path: 'profile-pictures/12/landscapeImage5 (1).jpeg' },
+        { path: 'profile-pictures/12/landscapeImage4.jpeg' },
+        { path: 'profile-pictures/12/landscapeImage4 (1).jpeg' },
+        { path: 'profile-pictures/12/landscapeImage3 (1).jpeg' },
+        { path: 'profile-pictures/12/landscapeImage2.jpeg' },
+        { path: 'profile-pictures/12/landscapeImage1.jpeg' },
+        // { path: 'profile-pictures/12/landscapeImage1 (1).jpeg' },
     ];
 
     useEffect(() => {
@@ -40,7 +46,7 @@ const Gallery = () => {
     }
 
     return (
-        <div>
+        <div className="gallery-container">
             {imageUrls.length > 0 ? (
                 imageUrls.map((url, index) => (
                     <img
