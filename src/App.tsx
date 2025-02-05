@@ -373,6 +373,8 @@
 
 //     );
 // };
+// export default App;
+
 import React, { useState } from "react";
 import "./App.css";
 // import { uploadData } from "aws-amplify/storage";
@@ -428,7 +430,10 @@ const App: React.FC = () => {
                             reject(new Error("Failed to convert file to byte array"));
                         }
                     };
-                    reader.onerror = (error) => reject(new Error("Error reading file"));
+                    reader.onerror = (error) => {
+                console.error("Error reading file:", error);
+                reject(new Error("Error reading file"));
+            };
                     reader.readAsArrayBuffer(file);
                 })
             )
@@ -436,7 +441,7 @@ const App: React.FC = () => {
     };
 
 
-    const addToDDB = async (mainCharacterBuffers: Uint8Array[] | null, logoBuffer: Uint8Array | null) => {
+    const addToDDB = async (mainCharacterBuffers: Uint8Array[] | null, logoBuffer: Uint8Array[] | null) => {
         try {
             console.log("Preparing data for DDB:", {
                 url,
@@ -760,5 +765,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-// export default App;
