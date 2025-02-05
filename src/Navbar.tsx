@@ -13,8 +13,8 @@ const Navbar: React.FC = () => {
                     <Link to="/status">Check Status</Link>
                 </li>
                 <li>
-
-                    <span className="disabled-link">Gallery View</span>
+                    {/*<span className="disabled-link">Gallery View</span>*/}
+                    <Link to="/gallery">Gallery View</Link>
                 </li>
             </ul>
         </nav>
