@@ -752,7 +752,6 @@ const App: React.FC = () => {
                                 </div>
                                 <h1>RenAIssance: Artifact Generation Platform</h1>
                                 <h1>Album</h1>
-                                <p>This is Page 3 content.</p>
                                 <Gallery/>
                             </div>
                         }
