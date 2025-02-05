@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getUrl } from 'aws-amplify/storage';
 
 const Gallery = () => {
-    const [imageUrls, setImageUrls] = useState<string[]>([]);
+    const [imageUrls, setImageUrls] = useState<URL[]>([]);
     const [loading, setLoading] = useState(true);
 
     const pictures = [
@@ -19,9 +19,11 @@ const Gallery = () => {
                     pictures.map(async (item) => {
                         const result = await getUrl({ path: item.path });
                         console.log(result.url); // Log the actual URL
+                        console.log(typeof result.url);
                         return result.url; // Extract and return only the URL
                     })
                 );
+
                 setImageUrls(urls); // Set the URLs in state
                 setLoading(false);
             } catch (error) {
@@ -43,7 +45,7 @@ const Gallery = () => {
                 imageUrls.map((url, index) => (
                     <img
                         key={index}
-                        src={url}
+                        src={url.toString()}
                         alt={`Profile ${index + 1}`}
                         style={{
                             width: '200px', // Set a fixed width
